@@ -1,0 +1,28 @@
+package org.livitbox.intellijrecenttreeview
+
+import com.intellij.ide.RecentProjectListActionProvider
+import com.intellij.ide.ReopenProjectAction
+import com.intellij.openapi.actionSystem.AnAction
+import com.intellij.openapi.actionSystem.AnActionEvent
+import com.intellij.openapi.actionSystem.DefaultActionGroup
+import com.intellij.openapi.project.Project
+
+
+class RecentProjectsDirTreeViewActionGroup : DefaultActionGroup("Recent Projects Tree", true) {
+
+    private val treeBuilder = TreeBuilder()
+
+    override fun getChildren(e: AnActionEvent?): Array<AnAction> {
+        val currentProject: Project? = e?.project
+        val actions = RecentProjectListActionProvider
+            .getInstance()
+            .getActions(addClearListItem = false, useGroups = false)
+            .filterIsInstance<ReopenProjectAction>()
+            .filter { it.projectPath != currentProject?.basePath }
+        val recentProjectsPaths = actions.stream()
+            .map { it.projectPath }
+            .toList()
+        val tree = treeBuilder.buildTree(recentProjectsPaths)
+        return tree.toTypedArray()
+    }
+}
