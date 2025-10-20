@@ -1,0 +1,31 @@
+name: Build and Publish IntelliJ Plugin
+
+on:
+  push:
+    tags:
+      - 'v*'   # only publish when a version tag is pushed (e.g. v1.0.0)
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '21'
+
+      - name: Grant execute permission for Gradle
+        run: chmod +x gradlew
+
+      - name: Build Plugin
+        run: ./gradlew buildPlugin
+
+      - name: Publish to JetBrains Marketplace
+        env:
+          JETBRAINS_TOKEN: ${{ secrets.JETBRAINS_TOKEN }}
+        run: ./gradlew publishPlugin
