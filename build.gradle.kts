@@ -1,11 +1,11 @@
 plugins {
     id("java")
-    id("org.jetbrains.kotlin.jvm") version "2.2.20"
+    id("org.jetbrains.kotlin.jvm") version "2.0.20"
     id("org.jetbrains.intellij.platform") version "2.10.1"
 }
 
 group = "org.livitbox"
-version = "1.3"
+version = "1.4"
 
 repositories {
     mavenCentral()
