@@ -54,12 +54,13 @@ class TreeBuilder {
         if (depth == 0) {
             tree.add(anAction)
         } else {
+            val parentKey = node.getParent()!!.getKey()
             val group =
-                findDefaultActionGroup(depthToActionGroupMap, depth - 1, node.getParent()!!.getKey())
+                findDefaultActionGroup(depthToActionGroupMap, depth - 1, parentKey)
             if (group != null) {
                 group.add(anAction)
             } else {
-                throw RuntimeException("should never happen")
+                throw RuntimeException("Parent group not found for key '$parentKey'")
             }
         }
     }
@@ -83,12 +84,12 @@ class TreeBuilder {
         var children: MutableList<AnAction>
         var currentAction: AnAction = tree[0] as DefaultActionGroup
         while (true) {
-            children = (currentAction as DefaultActionGroup).getChildren(ActionManager.getInstance()).toMutableList();
+            children = (currentAction as DefaultActionGroup).getChildren(ActionManager.getInstance()).toMutableList()
             if (children.size != 1) {
-                break;
+                break
             }
             if (children[0] is OpenRecentProjectAction) {
-                break;
+                break
             }
             currentAction = children[0] as DefaultActionGroup
         }

@@ -26,7 +26,7 @@ class Node(
     }
 
     fun childSize(): Int {
-        return children.size;
+        return children.size
     }
 
     fun traverse(depth: Int, action: (Node, Int) -> Unit) {
