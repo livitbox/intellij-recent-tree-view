@@ -5,7 +5,7 @@ plugins {
 }
 
 group = "org.livitbox"
-version = "1.1"
+version = "1.2"
 
 repositories {
     mavenCentral()
@@ -18,7 +18,7 @@ repositories {
 // Read more: https://plugins.jetbrains.com/docs/intellij/tools-intellij-platform-gradle-plugin.html
 dependencies {
     intellijPlatform {
-        create("IC", "2025.1.4.1")
+        create("IC", "2025.2")
         testFramework(org.jetbrains.intellij.platform.gradle.TestFrameworkType.Platform)
         testImplementation("junit:junit:4.13.2") // Legacy JUnit 4 for Platform compatibility
         testImplementation("org.junit.jupiter:junit-jupiter-api:5.11.1")
@@ -34,7 +34,7 @@ dependencies {
 intellijPlatform {
     pluginConfiguration {
         ideaVersion {
-            sinceBuild = "251"
+            sinceBuild = "242"
         }
 
         changeNotes = """
