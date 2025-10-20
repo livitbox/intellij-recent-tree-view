@@ -41,6 +41,9 @@ intellijPlatform {
             Initial version
         """.trimIndent()
     }
+    publishing {
+        token = providers.environmentVariable("JETBRAINS_TOKEN")
+    }
 }
 
 tasks {
