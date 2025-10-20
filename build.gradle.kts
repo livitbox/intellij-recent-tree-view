@@ -5,7 +5,7 @@ plugins {
 }
 
 group = "org.livitbox"
-version = "1.0"
+version = "1.1"
 
 repositories {
     mavenCentral()
@@ -51,6 +51,9 @@ tasks {
     withType<JavaCompile> {
         sourceCompatibility = "21"
         targetCompatibility = "21"
+    }
+    test {
+        useJUnitPlatform()
     }
 }
 

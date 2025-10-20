@@ -1,5 +1,6 @@
 package org.livitbox.intellijrecenttreeview
 
+import java.io.File
 import java.nio.file.Path
 import java.nio.file.Paths
 
@@ -10,7 +11,7 @@ fun createRootNode(pathStr: String): Node {
     var currentNode: Node? = null
     val path = Paths.get(pathStr);
     for (subPath in path.iterateSubpathsWithFull()) {
-        val key = subPath.fileName.toString()
+        val key = subPath.nodeKey()
         val newNode = Node(key, subPath.toString(), currentNode ?: rootNode)
         if (currentNode == null) {
             rootNode.addChild(newNode)
@@ -27,7 +28,7 @@ fun addPathAsNode(rootNode: Node, path: String) {
     var currentNode = rootNode
     val path = Paths.get(path);
     for (subPath in path.iterateSubpathsWithFull()) {
-        val key = subPath.fileName.toString()
+        val key = subPath.nodeKey()
         var child = currentNode.getChild(key)
         if (child == null) {
             child = Node(key, subPath.toString(), currentNode);
@@ -37,9 +38,21 @@ fun addPathAsNode(rootNode: Node, path: String) {
     }
 }
 
+private fun Path.nodeKey(): String {
+    if (fileName != null) {
+        return fileName.toString()
+    }
+    return toString().replace(File.separator, "")
+}
+
 private fun Path.iterateSubpathsWithFull(): Sequence<Path> = sequence {
-    for (i in 1..nameCount) {
-        // Reattach root if it exists ("/" or "C:\")
+    for (i in 0..nameCount) {
+        if (i == 0) {
+            if (root.toString() != File.separator) {
+                yield(root)
+            }
+            continue
+        }
         val fullSubpath = root?.resolve(subpath(0, i)) ?: subpath(0, i)
         yield(fullSubpath)
     }

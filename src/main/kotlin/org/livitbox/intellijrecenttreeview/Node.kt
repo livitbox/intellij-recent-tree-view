@@ -41,6 +41,6 @@ class Node(
     }
 
     override fun toString(): String {
-        return "Node(key='$key', children=$children)"
+        return "Node(key='$key', fullPath='$fullPath', childrenSize=${children.size}, hasParent=${parent != null})"
     }
 }
