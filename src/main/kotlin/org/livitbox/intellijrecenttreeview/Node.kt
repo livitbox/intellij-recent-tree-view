@@ -1,5 +1,7 @@
 package org.livitbox.intellijrecenttreeview
 
+import kotlinx.collections.immutable.toImmutableMap
+
 class Node(
     private val key: String,
     private val fullPath: String,
@@ -38,6 +40,15 @@ class Node(
 
     fun getFullPath(): String {
         return fullPath
+    }
+
+    fun sortChildren(comparator: Comparator<String>) {
+        if (children.isNotEmpty()) {
+            val sortedChildren = children.toSortedMap(comparator).toImmutableMap()
+            children.clear()
+            children.putAll(sortedChildren)
+        }
+        children.values.forEach { it.sortChildren(comparator) }
     }
 
     override fun toString(): String {

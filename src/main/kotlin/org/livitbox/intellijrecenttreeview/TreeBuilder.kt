@@ -4,7 +4,7 @@ import com.intellij.openapi.actionSystem.ActionManager
 import com.intellij.openapi.actionSystem.AnAction
 import com.intellij.openapi.actionSystem.DefaultActionGroup
 
-class TreeBuilder {
+class TreeBuilder(val settings: RecentProjectsTreeViewSettingsState) {
 
     fun buildTree(paths: List<String>): List<AnAction> {
         val tree = mutableListOf<AnAction>()
@@ -18,6 +18,9 @@ class TreeBuilder {
         }
 
         val depthToActionGroupMap = mutableMapOf<Int, MutableMap<String, DefaultActionGroup>>()
+        if (settings.sortTreeBranches) {
+            rootNode.sortChildren(compareBy { it })
+        }
         rootNode.traverse(0) { node, depth ->
             run {
                 if (node.childSize() > 0) {

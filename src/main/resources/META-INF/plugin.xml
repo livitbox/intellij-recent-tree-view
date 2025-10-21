@@ -23,11 +23,18 @@
             <li>Groups recent projects by their directory structure in a tree view</li>
             <li>Skips the currently open project to reduce clutter</li>
             <li>Works with the built-in Recent Projects list</li>
+            <li>(Settings) Filter removed projects - filters out the project which were removed from the file system</li>
+            <li>(Settings) Sort tree branches elements alphabetically - Sorts all tree branch elements alphabetically to ensure easier and more consistent project tree navigation</li>
         </ul>
         <h2>Where to find it in the IDE</h2>
         <ul>
             <li>Open IntelliJ IDEA (or any IntelliJ-based IDE)</li>
             <li>Go to: File → Recent Projects Tree</li>
+        </ul>
+        <h2>Where to find the settings in the IDE</h2>
+        <ul>
+            <li>Open IntelliJ IDEA (or any IntelliJ-based IDE)</li>
+            <li>Go to: File → Settings → Tools → Recent Projects Tree</li>
         </ul>
     ]]></description>
 
@@ -38,12 +45,16 @@
     <!-- Extension points defined by the plugin.
          Read more: https://plugins.jetbrains.com/docs/intellij/plugin-extension-points.html -->
     <extensions defaultExtensionNs="com.intellij">
-
+        <applicationService
+                serviceImplementation="org.livitbox.intellijrecenttreeview.RecentProjectsTreeViewSettingsState"/>
+        <applicationConfigurable
+                instance="org.livitbox.intellijrecenttreeview.RecentProjectsTreeViewConfigurable"
+                parentId="tools"/>
     </extensions>
 
     <actions>
         <group id="org.livitbox.intellijrecenttreeview.RecentTreeView"
-               class="org.livitbox.intellijrecenttreeview.RecentProjectsDirTreeViewActionGroup"
+               class="org.livitbox.intellijrecenttreeview.RecentProjectsTreeViewActionGroup"
                popup="true">
             <add-to-group group-id="FileOpenGroup" anchor="before" relative-to-action="CloseProject"/>
         </group>
@@ -73,6 +84,10 @@
       <h3>Version 1.5</h3>
       <ul>
         <li><b>New:</b> Improved plugin description</li>
+      </ul>
+      <h3>Version 1.6</h3>
+      <ul>
+        <li><b>New:</b> Added settings panel in Tools for the plugin options</li>
       </ul>
     ]]></change-notes>
 
