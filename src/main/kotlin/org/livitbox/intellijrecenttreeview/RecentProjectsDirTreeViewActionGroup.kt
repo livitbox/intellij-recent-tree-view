@@ -2,13 +2,13 @@ package org.livitbox.intellijrecenttreeview
 
 import com.intellij.ide.RecentProjectListActionProvider
 import com.intellij.ide.ReopenProjectAction
+import com.intellij.openapi.actionSystem.ActionGroup
 import com.intellij.openapi.actionSystem.AnAction
 import com.intellij.openapi.actionSystem.AnActionEvent
-import com.intellij.openapi.actionSystem.DefaultActionGroup
 import com.intellij.openapi.project.Project
 
 
-class RecentProjectsDirTreeViewActionGroup : DefaultActionGroup("Recent Projects Tree", true) {
+class RecentProjectsDirTreeViewActionGroup : ActionGroup("Recent Projects Tree", true) {
 
     private val treeBuilder = TreeBuilder()
 

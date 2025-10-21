@@ -5,7 +5,7 @@ plugins {
 }
 
 group = "org.livitbox"
-version = "1.4"
+version = "1.5"
 
 repositories {
     mavenCentral()
@@ -36,10 +36,6 @@ intellijPlatform {
         ideaVersion {
             sinceBuild = "242"
         }
-
-        changeNotes = """
-            Initial version
-        """.trimIndent()
     }
     pluginVerification {
         ides {
