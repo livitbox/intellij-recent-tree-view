@@ -5,7 +5,7 @@ plugins {
 }
 
 group = "org.livitbox"
-version = "1.7"
+version = "1.8"
 
 repositories {
     mavenCentral()
@@ -21,10 +21,12 @@ dependencies {
         create("IC", "2024.2.6")
         testFramework(org.jetbrains.intellij.platform.gradle.TestFrameworkType.Platform)
         testImplementation("junit:junit:4.13.2") // Legacy JUnit 4 for Platform compatibility
-        testImplementation("org.junit.jupiter:junit-jupiter-api:5.14.0")
-        testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.14.0")
+        testImplementation(platform("org.junit:junit-bom:5.14.0"))
+        testImplementation("org.junit.jupiter:junit-jupiter")
+        testRuntimeOnly("org.junit.platform:junit-platform-launcher")
         testImplementation("org.mockito:mockito-core:5.20.0")
         testImplementation("org.mockito.kotlin:mockito-kotlin:5.4.0")
+        testImplementation("com.google.jimfs:jimfs:1.3.1")
 
         // Add necessary plugin dependencies for compilation here, example:
         // bundledPlugin("com.intellij.java")
@@ -58,6 +60,9 @@ tasks {
     }
     test {
         useJUnitPlatform()
+    }
+    buildPlugin {
+        dependsOn(test)
     }
 }
 

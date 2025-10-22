@@ -27,7 +27,7 @@ class RecentProjectsTreeViewActionGroup : ActionGroup("Recent Projects Tree", tr
             .filterIsInstance<ReopenProjectAction>()
             .filter { it.projectPath != currentProject?.basePath }
             .filter { !settings.filterRemovedProjects || Files.exists(Paths.get(it.projectPath)) }
-            .map { it.projectPath }
+            .map { Paths.get(it.projectPath) }
             .toList()
         val tree = treeBuilder.buildTree(recentProjectsPaths)
         return tree.toTypedArray()

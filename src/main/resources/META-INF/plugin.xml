@@ -13,7 +13,6 @@
     <!-- Description of the plugin displayed on the Plugin Page and IDE Plugin Manager.
          Guidelines: https://plugins.jetbrains.com/docs/marketplace/best-practices-for-listing.html#plugin-description -->
     <description><![CDATA[
-        <h1>Recent Projects Tree View</h1>
         <p>Organize your Recent Projects menu into tree view.</p>
         <p>This plugin adds a new action to the File menu that shows your recent projects in a directory tree view, 
         making it easier to navigate large collections of projects that share common folder structures. 
@@ -92,6 +91,10 @@
       <h3>Version 1.7</h3>
       <ul>
         <li><b>Fix:</b> Fixed the sorting (it is now case-insensitive)</li>
+      </ul>
+      <h3>Version 1.8</h3>
+      <ul>
+        <li><b>Fix:</b> Fixed tests</li>
       </ul>
     ]]></change-notes>
 

@@ -6,10 +6,9 @@ import java.nio.file.Paths
 
 val ROOT_NAME = "root"
 
-fun createRootNode(pathStr: String): Node {
+fun createRootNode(path: Path): Node {
     val rootNode = Node(ROOT_NAME, "", null)
     var currentNode: Node? = null
-    val path = Paths.get(pathStr);
     for (subPath in path.iterateSubpathsWithFull()) {
         val key = subPath.nodeKey()
         val newNode = Node(key, subPath.toString(), currentNode ?: rootNode)
@@ -24,9 +23,8 @@ fun createRootNode(pathStr: String): Node {
     return rootNode
 }
 
-fun addPathAsNode(rootNode: Node, path: String) {
+fun addPathAsNode(rootNode: Node, path: Path) {
     var currentNode = rootNode
-    val path = Paths.get(path);
     for (subPath in path.iterateSubpathsWithFull()) {
         val key = subPath.nodeKey()
         var child = currentNode.getChild(key)

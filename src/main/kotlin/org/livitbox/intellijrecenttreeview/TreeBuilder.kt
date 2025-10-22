@@ -3,6 +3,7 @@ package org.livitbox.intellijrecenttreeview
 import com.intellij.openapi.actionSystem.ActionManager
 import com.intellij.openapi.actionSystem.AnAction
 import com.intellij.openapi.actionSystem.DefaultActionGroup
+import java.nio.file.Path
 
 class TreeBuilder(val settings: RecentProjectsTreeViewSettingsState) {
 
@@ -10,7 +11,7 @@ class TreeBuilder(val settings: RecentProjectsTreeViewSettingsState) {
         String.CASE_INSENSITIVE_ORDER.compare(a, b)
     }
 
-    fun buildTree(paths: List<String>): List<AnAction> {
+    fun buildTree(paths: List<Path>): List<AnAction> {
         val tree = mutableListOf<AnAction>()
         if (paths.isEmpty()) {
             return tree

@@ -7,36 +7,55 @@ import com.intellij.openapi.application.ApplicationManager
 import kotlinx.collections.immutable.persistentListOf
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertNotNull
-import org.junit.jupiter.api.BeforeAll
+import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.mockito.Mockito.mock
 import org.mockito.kotlin.whenever
+import java.nio.file.Paths
 
 class TreeBuilderTest() {
 
-    val treeBuilder = TreeBuilder()
+    lateinit var treeBuilder: TreeBuilder
 
-    companion object {
-        @BeforeAll
-        @JvmStatic
-        fun setupApplication() {
-            // Mock Application
-            val mockApp = mock<Application>()
-            ApplicationManager.setApplication(mockApp, mock(Disposable::class.java))
+    @BeforeEach
+    fun setupApplication() {
+        // Mock Application
+        val mockApp = mock<Application>()
+        ApplicationManager.setApplication(mockApp, mock(Disposable::class.java))
 
-            // Mock ActionManager and return it from Application
-            val mockActionManager = mock<ActionManager>()
-            whenever(mockApp.getService(ActionManager::class.java)).thenReturn(mockActionManager)
-        }
+        // Mock ActionManager and return it from Application
+        val mockActionManager = mock<ActionManager>()
+        whenever(mockApp.getService(ActionManager::class.java)).thenReturn(mockActionManager)
+
+        val mockSettings = mock<RecentProjectsTreeViewSettingsState>()
+        this.treeBuilder = TreeBuilder(mockSettings)
     }
 
     @Test
-    fun buildTree() {
-        val paths = persistentListOf("/Users/user1/test1", "C:/Users/user1/test1", "D:/Users/user1/test1")
+    fun buildTreeUniqueRoot() {
+        val paths = persistentListOf(
+            Paths.get("/user1/test1"),
+            Paths.get("/user2/test2"),
+            Paths.get("/user3/test3")
+        )
 
         val result = treeBuilder.buildTree(paths)
 
         assertNotNull(result)
         assertEquals(3, result.size)
+    }
+
+    @Test
+    fun buildTreeSameRoot() {
+        val paths = persistentListOf(
+            Paths.get("/user1/test1"),
+            Paths.get("/user1/test2"),
+            Paths.get("/user2/test3")
+        )
+
+        val result = treeBuilder.buildTree(paths)
+
+        assertNotNull(result)
+        assertEquals(2, result.size)
     }
 }
