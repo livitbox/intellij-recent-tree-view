@@ -89,6 +89,10 @@
       <ul>
         <li><b>New:</b> Added settings panel in Tools for the plugin options</li>
       </ul>
+      <h3>Version 1.7</h3>
+      <ul>
+        <li><b>Fix:</b> Fixed the sorting (it is now case-insensitive)</li>
+      </ul>
     ]]></change-notes>
 
 </idea-plugin>

@@ -6,6 +6,10 @@ import com.intellij.openapi.actionSystem.DefaultActionGroup
 
 class TreeBuilder(val settings: RecentProjectsTreeViewSettingsState) {
 
+    private val sortTreeBranchesComparator = Comparator<String> { a, b ->
+        String.CASE_INSENSITIVE_ORDER.compare(a, b)
+    }
+
     fun buildTree(paths: List<String>): List<AnAction> {
         val tree = mutableListOf<AnAction>()
         if (paths.isEmpty()) {
@@ -19,7 +23,7 @@ class TreeBuilder(val settings: RecentProjectsTreeViewSettingsState) {
 
         val depthToActionGroupMap = mutableMapOf<Int, MutableMap<String, DefaultActionGroup>>()
         if (settings.sortTreeBranches) {
-            rootNode.sortChildren(compareBy { it })
+            rootNode.sortChildren(sortTreeBranchesComparator)
         }
         rootNode.traverse(0) { node, depth ->
             run {

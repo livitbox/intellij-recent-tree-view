@@ -25,7 +25,7 @@ jobs:
       - name: Build Plugin
         run: ./gradlew buildPlugin
 
-#      - name: Publish to JetBrains Marketplace
-#        env:
-#          JETBRAINS_TOKEN: ${{ secrets.JETBRAINS_TOKEN }}
-#        run: ./gradlew publishPlugin
+      - name: Publish to JetBrains Marketplace
+        env:
+          JETBRAINS_TOKEN: ${{ secrets.JETBRAINS_TOKEN }}
+        run: ./gradlew publishPlugin
