@@ -45,9 +45,9 @@
          Read more: https://plugins.jetbrains.com/docs/intellij/plugin-extension-points.html -->
     <extensions defaultExtensionNs="com.intellij">
         <applicationService
-                serviceImplementation="org.livitbox.intellijrecenttreeview.RecentProjectsTreeViewSettingsState"/>
+                serviceImplementation="org.livitbox.intellijrecenttreeview.settings.RecentProjectsTreeViewSettingsState"/>
         <applicationConfigurable
-                instance="org.livitbox.intellijrecenttreeview.RecentProjectsTreeViewConfigurable"
+                instance="org.livitbox.intellijrecenttreeview.settings.RecentProjectsTreeViewConfigurable"
                 parentId="tools"/>
     </extensions>
 
@@ -95,6 +95,10 @@
       <h3>Version 1.8</h3>
       <ul>
         <li><b>Fix:</b> Fixed tests</li>
+      </ul>
+      <h3>Version 1.9</h3>
+      <ul>
+        <li><b>New:</b> Refactored for improved performance and code clarity</li>
       </ul>
     ]]></change-notes>
 

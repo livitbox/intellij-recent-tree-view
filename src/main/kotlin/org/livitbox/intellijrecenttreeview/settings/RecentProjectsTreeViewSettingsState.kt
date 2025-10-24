@@ -1,4 +1,4 @@
-package org.livitbox.intellijrecenttreeview
+package org.livitbox.intellijrecenttreeview.settings
 
 import com.intellij.openapi.components.*
 
