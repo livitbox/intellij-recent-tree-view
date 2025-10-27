@@ -2,6 +2,7 @@ package org.livitbox.intellijrecenttreeview.utils
 
 import com.intellij.openapi.actionSystem.AnAction
 import org.livitbox.intellijrecenttreeview.model.TreeNodeBranch
+import org.livitbox.intellijrecenttreeview.model.TreeNodeLeaf
 import org.livitbox.intellijrecenttreeview.settings.RecentProjectsTreeViewSettingsState
 import java.nio.file.Path
 
@@ -36,6 +37,9 @@ class TreeBuilder(val settings: RecentProjectsTreeViewSettingsState) {
         while (true) {
             val children = currentNode.getChildrenAsList()
             if (children.size != 1) {
+                return currentNode
+            }
+            if (children[0] is TreeNodeLeaf) {
                 return currentNode
             }
             currentNode = children[0] as TreeNodeBranch
