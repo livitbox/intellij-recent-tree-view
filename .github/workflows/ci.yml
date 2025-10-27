@@ -1,4 +1,4 @@
-name: Build and Publish IntelliJ Plugin
+name: Build and Publish Recent Projects Tree IntelliJ Plugin
 
 on:
   push:

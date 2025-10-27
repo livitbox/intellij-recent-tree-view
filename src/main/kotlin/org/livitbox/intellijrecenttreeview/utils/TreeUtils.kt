@@ -3,10 +3,10 @@ package org.livitbox.intellijrecenttreeview.utils
 import com.intellij.openapi.actionSystem.AnAction
 import org.livitbox.intellijrecenttreeview.model.TreeNodeBranch
 import org.livitbox.intellijrecenttreeview.model.TreeNodeLeaf
-import java.io.File
 import java.nio.file.Path
 
 val ROOT_NAME = "root"
+val UNIX_FILE_SEPARATOR = "/"
 
 fun createRootNode(path: Path): TreeNodeBranch {
     val rootNode = TreeNodeBranch(ROOT_NAME, "", null)
@@ -58,7 +58,7 @@ fun addPathAsNode(rootNode: TreeNodeBranch, path: Path) {
 private fun Path.iterateSubpaths(): Sequence<PathIteration> = sequence {
     for (i in 0..nameCount) {
         if (i == 0) {
-            if (root.toString() != File.separator) {
+            if (root.toString() != UNIX_FILE_SEPARATOR) {
                 yield(PathIteration(i, root, root))
             }
             continue

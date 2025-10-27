@@ -1,4 +1,8 @@
-# Recent Projects Tree View (IntelliJ Plugin)
+# Recent Projects Tree (IntelliJ Plugin)
+
+[![Build and Publish Recent Projects Tree IntelliJ Plugin](https://github.com/livitbox/intellij-recent-tree-view/actions/workflows/publish.yml/badge.svg)](https://github.com/livitbox/intellij-recent-tree-view/actions/workflows/publish.yml)
+
+-----
 
 Organize your Recent Projects menu into tree view.
 
