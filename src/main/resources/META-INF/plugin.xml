@@ -60,6 +60,10 @@
     </actions>
 
     <change-notes><![CDATA[
+      <h3>Version 1.11</h3>
+      <ul>
+        <li><b>New:</b> Improved performance during sorting</li>
+      </ul>
       <h3>Version 1.10</h3>
       <ul>
         <li><b>Fix:</b> Fixed exception in case of single leaf project</li>

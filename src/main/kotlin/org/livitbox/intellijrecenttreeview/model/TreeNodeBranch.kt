@@ -2,19 +2,18 @@ package org.livitbox.intellijrecenttreeview.model
 
 import com.intellij.openapi.actionSystem.AnAction
 import com.intellij.openapi.actionSystem.DefaultActionGroup
-import kotlinx.collections.immutable.toImmutableMap
 
 class TreeNodeBranch : DefaultActionGroup {
 
     val key: String
     val fullPath: String
-    private val children: MutableMap<String, AnAction>
+    private val children: HashMap<String, AnAction>
     val parent: TreeNodeBranch?
 
     constructor(
         key: String,
         fullPath: String,
-        children: MutableMap<String, AnAction>,
+        children: HashMap<String, AnAction>,
         parent: TreeNodeBranch?
     ) : super(key, true) {
         this.key = key
@@ -27,7 +26,7 @@ class TreeNodeBranch : DefaultActionGroup {
         key: String,
         fullPath: String,
         parent: TreeNodeBranch?
-    ) : this(key, fullPath, mutableMapOf(), parent)
+    ) : this(key, fullPath, hashMapOf(), parent)
 
     fun addChild(key: String, child: AnAction) {
         children[key] = child
@@ -38,15 +37,9 @@ class TreeNodeBranch : DefaultActionGroup {
         return children[key]
     }
 
-    fun getChildrenAsList(): List<AnAction> {
-        return children.values.toList()
-    }
-
     fun sortChildren(comparator: Comparator<String>) {
         if (children.size > 1) {
-            val sortedChildren = children.toSortedMap(comparator).toImmutableMap()
-            children.clear()
-            children.putAll(sortedChildren)
+            val sortedChildren = children.toSortedMap(comparator)
             super.removeAll()
             super.addAll(sortedChildren.values)
         }

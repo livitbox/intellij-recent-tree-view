@@ -1,5 +1,6 @@
 package org.livitbox.intellijrecenttreeview.utils
 
+import com.intellij.openapi.actionSystem.ActionManager
 import com.intellij.openapi.actionSystem.AnAction
 import org.livitbox.intellijrecenttreeview.model.TreeNodeBranch
 import org.livitbox.intellijrecenttreeview.model.TreeNodeLeaf
@@ -8,12 +9,14 @@ import java.nio.file.Path
 
 class TreeBuilder(val settings: RecentProjectsTreeViewSettingsState) {
 
+    private val actionManager: ActionManager = ActionManager.getInstance()
+
     private val sortTreeBranchesComparator = Comparator<String> { a, b ->
         String.CASE_INSENSITIVE_ORDER.compare(a, b)
     }
 
     fun buildTree(paths: List<Path>): List<AnAction> {
-        val tree = mutableListOf<AnAction>()
+        val tree = arrayListOf<AnAction>()
         if (paths.isEmpty()) {
             return tree
         }
@@ -28,14 +31,14 @@ class TreeBuilder(val settings: RecentProjectsTreeViewSettingsState) {
         }
 
         val firstChildWithZeroOrMoreChildren = findFirstChildWithZeroOrMoreChildren(rootNode)
-        tree.addAll(firstChildWithZeroOrMoreChildren.getChildrenAsList())
+        tree.addAll(firstChildWithZeroOrMoreChildren.getChildren(actionManager))
         return tree
     }
 
     private fun findFirstChildWithZeroOrMoreChildren(rootNode: TreeNodeBranch): TreeNodeBranch {
         var currentNode: TreeNodeBranch = rootNode
         while (true) {
-            val children = currentNode.getChildrenAsList()
+            val children = currentNode.getChildren(actionManager)
             if (children.size != 1) {
                 return currentNode
             }

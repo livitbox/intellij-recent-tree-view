@@ -11,15 +11,16 @@ val ROOT_NAME = "root"
 fun createRootNode(path: Path): TreeNodeBranch {
     val rootNode = TreeNodeBranch(ROOT_NAME, "", null)
     var currentNode: AnAction = rootNode
-    for ((i, subPath) in path.iterateSubpathsWithFull()) {
-        val key = subPath.nodeKey()
+    for (pathIteration in path.iterateSubpaths()) {
+        val key = pathIteration.subpath.toString()
+        val fullPath = pathIteration.fullPath.toString()
         val newNode: AnAction
-        if (i == path.nameCount) {
-            newNode = TreeNodeLeaf(subPath.toString())
+        if (pathIteration.depth == path.nameCount) {
+            newNode = TreeNodeLeaf(fullPath)
             (currentNode as TreeNodeBranch).addChild(key, newNode)
         } else {
             newNode = TreeNodeBranch(
-                key, subPath.toString(),
+                key, fullPath,
                 currentNode as TreeNodeBranch?
             )
             currentNode.addChild(key, newNode)
@@ -31,20 +32,20 @@ fun createRootNode(path: Path): TreeNodeBranch {
 
 fun addPathAsNode(rootNode: TreeNodeBranch, path: Path) {
     var currentNode: AnAction = rootNode
-    for ((i, subPath) in path.iterateSubpathsWithFull()) {
-        val key = subPath.nodeKey()
+    for (pathIteration in path.iterateSubpaths()) {
+        val key = pathIteration.subpath.toString()
+        val fullPath = pathIteration.fullPath.toString()
         if (currentNode !is TreeNodeBranch) {
             continue
         }
         var child: AnAction? = currentNode.getChild(key)
         if (child == null) {
-            if (i == path.nameCount) {
-                child =
-                    TreeNodeLeaf(subPath.toString())
+            if (pathIteration.depth == path.nameCount) {
+                child = TreeNodeLeaf(fullPath)
             } else {
                 child = TreeNodeBranch(
                     key,
-                    subPath.toString(),
+                    fullPath,
                     currentNode
                 )
             }
@@ -54,22 +55,19 @@ fun addPathAsNode(rootNode: TreeNodeBranch, path: Path) {
     }
 }
 
-private fun Path.nodeKey(): String {
-    if (fileName != null) {
-        return fileName.toString()
-    }
-    return toString().replace(File.separator, "")
-}
-
-private fun Path.iterateSubpathsWithFull(): Sequence<Pair<Int, Path>> = sequence {
+private fun Path.iterateSubpaths(): Sequence<PathIteration> = sequence {
     for (i in 0..nameCount) {
         if (i == 0) {
             if (root.toString() != File.separator) {
-                yield(i to root)
+                yield(PathIteration(i, root, root))
             }
             continue
         }
-        val fullSubpath = root?.resolve(subpath(0, i)) ?: subpath(0, i)
-        yield(i to fullSubpath)
+        val subpath = subpath(0, i)
+        val lastSubpath = subpath(i - 1, i)
+        val fullSubpath = root?.resolve(subpath) ?: subpath
+        yield(PathIteration(i, lastSubpath, fullSubpath))
     }
 }
+
+class PathIteration(val depth: Int, val subpath: Path, val fullPath: Path)
