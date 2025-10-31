@@ -1,12 +1,15 @@
 package org.livitbox.intellijrecenttreeview.utils
 
 import com.intellij.openapi.actionSystem.AnAction
+import com.intellij.openapi.diagnostic.Logger
 import org.livitbox.intellijrecenttreeview.model.TreeNodeBranch
 import org.livitbox.intellijrecenttreeview.model.TreeNodeLeaf
 import java.nio.file.Path
 
 val ROOT_NAME = "root"
 val UNIX_FILE_SEPARATOR = "/"
+
+private val LOG = Logger.getInstance("#org.livitbox.intellijrecenttreeview.utils.TreeUtils")
 
 fun createRootNode(path: Path): TreeNodeBranch {
     val rootNode = TreeNodeBranch(ROOT_NAME, "", null)
@@ -17,7 +20,12 @@ fun createRootNode(path: Path): TreeNodeBranch {
         val newNode: AnAction
         if (pathIteration.depth == path.nameCount) {
             newNode = TreeNodeLeaf(fullPath)
-            (currentNode as TreeNodeBranch).addChild(key, newNode)
+            if (currentNode is TreeNodeBranch) {
+                currentNode.addChild(key, newNode)
+            } else {
+                LOG.error("The last node is not a leaf: $fullPath")
+                throw RuntimeException("The last node is not a leaf: $fullPath")
+            }
         } else {
             newNode = TreeNodeBranch(
                 key, fullPath,

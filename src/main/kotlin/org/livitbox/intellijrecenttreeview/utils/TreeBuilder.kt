@@ -2,12 +2,15 @@ package org.livitbox.intellijrecenttreeview.utils
 
 import com.intellij.openapi.actionSystem.ActionManager
 import com.intellij.openapi.actionSystem.AnAction
+import com.intellij.openapi.diagnostic.logger
 import org.livitbox.intellijrecenttreeview.model.TreeNodeBranch
 import org.livitbox.intellijrecenttreeview.model.TreeNodeLeaf
 import org.livitbox.intellijrecenttreeview.settings.RecentProjectsTreeViewSettingsState
 import java.nio.file.Path
 
 class TreeBuilder(val settings: RecentProjectsTreeViewSettingsState) {
+
+    private val LOG = logger<TreeBuilder>()
 
     private val actionManager: ActionManager = ActionManager.getInstance()
 
@@ -22,8 +25,10 @@ class TreeBuilder(val settings: RecentProjectsTreeViewSettingsState) {
         }
 
         val rootNode = createRootNode(paths[0])
+        LOG.debug("Created root node for path: '${paths[0]}'")
         for (pathStr in paths) {
             addPathAsNode(rootNode, pathStr)
+            LOG.debug("Added node for path: '$pathStr'")
         }
 
         if (settings.sortTreeBranches) {
