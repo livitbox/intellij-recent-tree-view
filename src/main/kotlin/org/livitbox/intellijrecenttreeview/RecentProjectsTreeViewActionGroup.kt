@@ -1,15 +1,12 @@
 package org.livitbox.intellijrecenttreeview
 
-import com.intellij.ide.RecentProjectListActionProvider
-import com.intellij.ide.ReopenProjectAction
 import com.intellij.openapi.actionSystem.ActionGroup
 import com.intellij.openapi.actionSystem.AnAction
 import com.intellij.openapi.actionSystem.AnActionEvent
 import com.intellij.openapi.project.Project
 import org.livitbox.intellijrecenttreeview.settings.RecentProjectsTreeViewSettingsState
 import org.livitbox.intellijrecenttreeview.utils.TreeBuilder
-import java.nio.file.Files
-import java.nio.file.Paths
+import org.livitbox.intellijrecenttreeview.utils.getListOfPrecentProjectsPaths
 
 class RecentProjectsTreeViewActionGroup : ActionGroup("Recent Projects Tree", true) {
 
@@ -22,15 +19,8 @@ class RecentProjectsTreeViewActionGroup : ActionGroup("Recent Projects Tree", tr
 
     override fun getChildren(e: AnActionEvent?): Array<AnAction> {
         val currentProject: Project? = e?.project
-        val recentProjectsPaths = RecentProjectListActionProvider
-            .getInstance()
-            .getActions(addClearListItem = false, useGroups = false)
-            .filterIsInstance<ReopenProjectAction>()
-            .filter { it.projectPath != currentProject?.basePath }
-            .filter { !settings.filterRemovedProjects || Files.exists(Paths.get(it.projectPath)) }
-            .map { Paths.get(it.projectPath) }
-            .toList()
-        val tree = treeBuilder.buildTree(recentProjectsPaths)
+        val recentProjectsPaths = getListOfPrecentProjectsPaths(currentProject, settings.filterRemovedProjects)
+        val tree = treeBuilder.buildTree(currentProject, recentProjectsPaths)
         return tree.toTypedArray()
     }
 }

@@ -48,10 +48,10 @@ fun addPathAsNode(rootNode: TreeNodeBranch, path: Path) {
         }
         var child: AnAction? = currentNode.getChild(key)
         if (child == null) {
-            if (pathIteration.depth == path.nameCount) {
-                child = TreeNodeLeaf(fullPath)
+            child = if (pathIteration.depth == path.nameCount) {
+                TreeNodeLeaf(fullPath)
             } else {
-                child = TreeNodeBranch(
+                TreeNodeBranch(
                     key,
                     fullPath,
                     currentNode

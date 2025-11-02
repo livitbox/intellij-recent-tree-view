@@ -49,6 +49,7 @@
         <applicationConfigurable
                 instance="org.livitbox.intellijrecenttreeview.settings.RecentProjectsTreeViewConfigurable"
                 parentId="tools"/>
+        <notificationGroup id="RecentProjectsTreeNotifications" displayType="BALLOON" isLogByDefault="true"/>
     </extensions>
 
     <actions>

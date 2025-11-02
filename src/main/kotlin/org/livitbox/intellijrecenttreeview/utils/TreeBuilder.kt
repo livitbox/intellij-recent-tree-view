@@ -2,7 +2,10 @@ package org.livitbox.intellijrecenttreeview.utils
 
 import com.intellij.openapi.actionSystem.ActionManager
 import com.intellij.openapi.actionSystem.AnAction
+import com.intellij.openapi.actionSystem.Separator
 import com.intellij.openapi.diagnostic.logger
+import com.intellij.openapi.project.Project
+import org.livitbox.intellijrecenttreeview.CheckRemovedRecentProjectsAction
 import org.livitbox.intellijrecenttreeview.model.TreeNodeBranch
 import org.livitbox.intellijrecenttreeview.model.TreeNodeLeaf
 import org.livitbox.intellijrecenttreeview.settings.RecentProjectsTreeViewSettingsState
@@ -18,7 +21,7 @@ class TreeBuilder(val settings: RecentProjectsTreeViewSettingsState) {
         String.CASE_INSENSITIVE_ORDER.compare(a, b)
     }
 
-    fun buildTree(paths: List<Path>): List<AnAction> {
+    fun buildTree(project: Project?, paths: List<Path>): List<AnAction> {
         val tree = arrayListOf<AnAction>()
         if (paths.isEmpty()) {
             return tree
@@ -37,6 +40,10 @@ class TreeBuilder(val settings: RecentProjectsTreeViewSettingsState) {
 
         val firstChildWithZeroOrMoreChildren = findFirstChildWithZeroOrMoreChildren(rootNode)
         tree.addAll(firstChildWithZeroOrMoreChildren.getChildren(actionManager))
+        if (project != null) {
+            tree.add(Separator.getInstance())
+            tree.add(CheckRemovedRecentProjectsAction(project))
+        }
         return tree
     }
 
