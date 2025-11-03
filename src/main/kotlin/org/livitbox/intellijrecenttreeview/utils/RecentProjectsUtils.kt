@@ -7,13 +7,15 @@ import java.nio.file.Files
 import java.nio.file.Path
 import java.nio.file.Paths
 
-fun getListOfPrecentProjectsPaths(project: Project?, filterRemovedProjects: Boolean): List<Path> {
+fun getListOfRecentProjectsPaths(project: Project?): List<Path> {
     return RecentProjectListActionProvider
         .getInstance()
         .getActions(addClearListItem = false, useGroups = false)
         .filterIsInstance<ReopenProjectAction>()
         .filter { it.projectPath != project?.basePath }
-        .filter { !filterRemovedProjects || Files.exists(Paths.get(it.projectPath)) }
         .map { Paths.get(it.projectPath) }
-        .toList()
+}
+
+fun isRecentProjectRemoved(path: Path): Boolean {
+    return !Files.exists(path)
 }

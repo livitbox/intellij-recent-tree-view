@@ -54,7 +54,7 @@
 
     <actions>
         <group id="org.livitbox.intellijrecenttreeview.RecentTreeView"
-               class="org.livitbox.intellijrecenttreeview.RecentProjectsTreeViewActionGroup"
+               class="org.livitbox.intellijrecenttreeview.action.RecentProjectsTreeViewActionGroup"
                popup="true">
             <add-to-group group-id="FileOpenGroup" anchor="before" relative-to-action="CloseProject"/>
         </group>

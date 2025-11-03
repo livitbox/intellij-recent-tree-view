@@ -1,12 +1,13 @@
-package org.livitbox.intellijrecenttreeview
+package org.livitbox.intellijrecenttreeview.action
 
 import com.intellij.openapi.actionSystem.ActionGroup
 import com.intellij.openapi.actionSystem.AnAction
 import com.intellij.openapi.actionSystem.AnActionEvent
 import com.intellij.openapi.project.Project
+import org.livitbox.intellijrecenttreeview.builder.TreeBuilder
 import org.livitbox.intellijrecenttreeview.settings.RecentProjectsTreeViewSettingsState
-import org.livitbox.intellijrecenttreeview.utils.TreeBuilder
-import org.livitbox.intellijrecenttreeview.utils.getListOfPrecentProjectsPaths
+import org.livitbox.intellijrecenttreeview.utils.getListOfRecentProjectsPaths
+import org.livitbox.intellijrecenttreeview.utils.isRecentProjectRemoved
 
 class RecentProjectsTreeViewActionGroup : ActionGroup("Recent Projects Tree", true) {
 
@@ -19,7 +20,10 @@ class RecentProjectsTreeViewActionGroup : ActionGroup("Recent Projects Tree", tr
 
     override fun getChildren(e: AnActionEvent?): Array<AnAction> {
         val currentProject: Project? = e?.project
-        val recentProjectsPaths = getListOfPrecentProjectsPaths(currentProject, settings.filterRemovedProjects)
+        var recentProjectsPaths = getListOfRecentProjectsPaths(currentProject)
+        if (settings.filterRemovedProjects) {
+            recentProjectsPaths = recentProjectsPaths.filter { !isRecentProjectRemoved(it) }
+        }
         val tree = treeBuilder.buildTree(currentProject, recentProjectsPaths)
         return tree.toTypedArray()
     }

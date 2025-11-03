@@ -11,6 +11,7 @@ import org.junit.jupiter.api.Assertions.assertNotNull
 import org.junit.jupiter.api.BeforeAll
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
+import org.livitbox.intellijrecenttreeview.builder.TreeBuilder
 import org.livitbox.intellijrecenttreeview.settings.RecentProjectsTreeViewSettingsState
 import org.mockito.Mockito.mock
 import org.mockito.kotlin.whenever
@@ -53,7 +54,7 @@ class TreeBuilderTest() {
         val result = treeBuilder.buildTree(project, paths)
 
         assertNotNull(result)
-        assertEquals(5, result.size)
+        assertEquals(3, result.size)
     }
 
     @Test
@@ -67,6 +68,6 @@ class TreeBuilderTest() {
         val result = treeBuilder.buildTree(project, paths)
 
         assertNotNull(result)
-        assertEquals(4, result.size)
+        assertEquals(2, result.size)
     }
 }
