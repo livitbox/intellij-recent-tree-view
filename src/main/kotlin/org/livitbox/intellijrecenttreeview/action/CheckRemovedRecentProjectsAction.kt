@@ -21,11 +21,11 @@ class CheckRemovedRecentProjectsAction(val project: Project) : AnAction("Count r
         scope.launch {
             val maxProgress = 100
             var removedProjectsCounter = 0
-            val removedProjectsPaths = mutableListOf<String>()
+            val removedProjectsPaths = mutableSetOf<String>()
             withBackgroundProgress(project, "Counting removed recent projects", cancellable = true) {
                 reportProgress { reporter ->
                     lateinit var recentProjectsPaths: List<Path>
-                    reporter.indeterminateStep("Fetching all recent projects...") {
+                    reporter.indeterminateStep("Fetching recent projects...") {
                         recentProjectsPaths = getListOfRecentProjectsPaths(e.project)
 //                        delay(300)
                     }

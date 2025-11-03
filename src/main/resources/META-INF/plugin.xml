@@ -61,6 +61,11 @@
     </actions>
 
     <change-notes><![CDATA[
+      <h3>Version 1.12</h3>
+      <ul>
+        <li><b>New:</b> Added logging</li>
+        <li><b>New:</b> Added option to count removed projects included in the recent projects list (internal)</li>
+      </ul>
       <h3>Version 1.11</h3>
       <ul>
         <li><b>New:</b> Improved performance during sorting</li>
