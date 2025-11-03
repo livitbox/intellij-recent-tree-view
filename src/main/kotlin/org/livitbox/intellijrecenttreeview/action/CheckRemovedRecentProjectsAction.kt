@@ -1,7 +1,11 @@
 package org.livitbox.intellijrecenttreeview.action
 
+import com.intellij.ide.RecentProjectsManager
+import com.intellij.notification.NotificationAction
 import com.intellij.openapi.actionSystem.AnAction
 import com.intellij.openapi.actionSystem.AnActionEvent
+import com.intellij.openapi.command.CommandProcessor
+import com.intellij.openapi.command.undo.UndoManager
 import com.intellij.openapi.project.Project
 import com.intellij.platform.ide.progress.withBackgroundProgress
 import com.intellij.platform.util.progress.reportProgress
@@ -52,7 +56,40 @@ class CheckRemovedRecentProjectsAction(val project: Project) : AnAction("Count r
                     """$removedProjectsCounter removed recent projects.<br> Projects paths:
 ${removedProjectsPaths.joinToString("<br>") { it }}"""
                 }
-            showNotification(project, message)
+            showNotification(project, message, createRemoveRecentProjectsNotificationAction(removedProjectsPaths))
+        }
+    }
+
+    fun createRemoveRecentProjectsNotificationAction(removedProjectsPaths: Set<String>): NotificationAction? {
+        if (removedProjectsPaths.isEmpty()) {
+            return null
+        }
+
+        return NotificationAction.create("Clear removed recent projects") { _, notification ->
+            CommandProcessor.getInstance().executeCommand(project, {
+                val recentProjectsManager = RecentProjectsManager.getInstance()
+                for (path in removedProjectsPaths) {
+                    recentProjectsManager.removePath(path)
+                }
+            }, "Clear Removed Recent Projects", null)
+            notification.expire()
+            showNotification(
+                project,
+                "${removedProjectsPaths.size} removed recent projects successfully cleared",
+                createUndoAction()
+            )
+        }
+    }
+
+    fun createUndoAction(): NotificationAction? {
+        val manager = UndoManager.getInstance(project)
+        if (!manager.isUndoAvailable(null)) {
+            return null
+        }
+
+        return NotificationAction.create("Undo") { _, notification ->
+            manager.undo(null)
+            notification.expire()
         }
     }
 }
