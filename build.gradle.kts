@@ -5,7 +5,7 @@ plugins {
 }
 
 group = "org.livitbox"
-version = "1.13"
+version = "1.14"
 
 repositories {
     mavenCentral()

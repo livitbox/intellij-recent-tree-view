@@ -3,6 +3,7 @@ package org.livitbox.intellijrecenttreeview.action
 import com.intellij.openapi.actionSystem.ActionGroup
 import com.intellij.openapi.actionSystem.AnAction
 import com.intellij.openapi.actionSystem.AnActionEvent
+import com.intellij.openapi.actionSystem.Separator
 import com.intellij.openapi.project.Project
 import org.livitbox.intellijrecenttreeview.builder.TreeBuilder
 import org.livitbox.intellijrecenttreeview.settings.RecentProjectsTreeViewSettingsState
@@ -24,7 +25,14 @@ class RecentProjectsTreeViewActionGroup : ActionGroup("Recent Projects Tree", tr
         if (settings.filterRemovedProjects) {
             recentProjectsPaths = recentProjectsPaths.filter { !isRecentProjectRemoved(it) }
         }
-        val tree = treeBuilder.buildTree(currentProject, recentProjectsPaths)
+        val tree = treeBuilder.buildTree(recentProjectsPaths)
+        if (currentProject != null) {
+            if (tree.isNotEmpty()) {
+                tree.add(Separator.getInstance())
+            }
+            tree.add(FindRemovedRecentProjectsAction(currentProject))
+        }
+
         return tree.toTypedArray()
     }
 }

@@ -2,11 +2,7 @@ package org.livitbox.intellijrecenttreeview.builder
 
 import com.intellij.openapi.actionSystem.ActionManager
 import com.intellij.openapi.actionSystem.AnAction
-import com.intellij.openapi.actionSystem.Separator
-import com.intellij.openapi.application.ApplicationManager
 import com.intellij.openapi.diagnostic.logger
-import com.intellij.openapi.project.Project
-import org.livitbox.intellijrecenttreeview.action.CheckRemovedRecentProjectsAction
 import org.livitbox.intellijrecenttreeview.model.TreeNodeBranch
 import org.livitbox.intellijrecenttreeview.model.TreeNodeLeaf
 import org.livitbox.intellijrecenttreeview.settings.RecentProjectsTreeViewSettingsState
@@ -20,7 +16,7 @@ class TreeBuilder(val settings: RecentProjectsTreeViewSettingsState) {
 
     private val actionManager: ActionManager = ActionManager.getInstance()
 
-    fun buildTree(project: Project?, paths: List<Path>): List<AnAction> {
+    fun buildTree(paths: List<Path>): MutableList<AnAction> {
         val tree = arrayListOf<AnAction>()
         if (paths.isEmpty()) {
             return tree
@@ -39,10 +35,6 @@ class TreeBuilder(val settings: RecentProjectsTreeViewSettingsState) {
 
         val firstChildWithZeroOrMoreChildren = findFirstChildWithZeroOrMoreChildren(rootNode)
         tree.addAll(firstChildWithZeroOrMoreChildren.getChildren(actionManager))
-        if (project != null && ApplicationManager.getApplication().isInternal) {
-            tree.add(Separator.getInstance())
-            tree.add(CheckRemovedRecentProjectsAction(project))
-        }
         return tree
     }
 

@@ -51,7 +51,7 @@ class TreeBuilderTest() {
             Paths.get("/user3/test3")
         )
 
-        val result = treeBuilder.buildTree(project, paths)
+        val result = treeBuilder.buildTree(paths)
 
         assertNotNull(result)
         assertEquals(3, result.size)
@@ -65,7 +65,7 @@ class TreeBuilderTest() {
             Paths.get("/user2/test3")
         )
 
-        val result = treeBuilder.buildTree(project, paths)
+        val result = treeBuilder.buildTree(paths)
 
         assertNotNull(result)
         assertEquals(2, result.size)
